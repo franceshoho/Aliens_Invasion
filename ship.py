@@ -14,7 +14,21 @@ class Ship:
 
         # start each new ship at the bottom center of screen
         self.rect.midbottom = self.screen_rect.midbottom
+        # set initial key stroke state
+        self.moving_right = False
+        self.moving_left = False
+        self.moving_up = False
+
+
+    def update(self):
+        """update ship position based on movement flag"""
+        if self.moving_right:
+            self.rect.x += 1
+        if self.moving_left:
+            self.rect.x -= 1
+
+
 
     def blitme(self):
-        """Draw ship at its current position"""
+        """draw ship onto screen by copying pixel from image to position"""
         self.screen.blit(self.image, self.rect)
