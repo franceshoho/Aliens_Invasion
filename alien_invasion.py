@@ -6,7 +6,6 @@ from bullet import Bullet
 
 class AlienInvasion:
     """Class to manage game assets and behaviors"""
-
     def __init__(self):
         """Initialize the game and create game resources"""
         pygame.init()
@@ -17,11 +16,10 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
         self.bg_color = (self.settings.bg_color) # set background color
 
-        # initiate ship.  Needs to pass Alien Invasion class (self)
+        # initiate ship.  need to pass in self as ai_game
         self.ship = Ship(self)
         # create a group of bullets.
         self.bullets = pygame.sprite.Group()
-
 
     def run_game(self):
         """Start main loop of the game"""
@@ -44,15 +42,13 @@ class AlienInvasion:
         for bullet in self.bullets.copy() :
             if bullet.rect.bottom <= 0 :
                 self.bullets.remove(bullet)
-                print(f'bullet count: {len(self.bullets)}')
-
 
     def _check_events(self):
         """private fn for AlienInvasion Class:  checks key events"""
         for event in pygame.event.get() :
             if event.type == pygame.QUIT :
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:  # if a key is pressed down
+            elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
@@ -76,10 +72,9 @@ class AlienInvasion:
             self.ship.moving_left = False
 
     def _fire_bullets(self):
-        """create a new bullet and add it to bullets group
-        if it's less than bullets_allowed"""
+        """create a new bullet and add it to bullets group"""
         if len(self.bullets) < self.settings.bullets_allowed:
-            new_bullet = Bullet(self)
+            new_bullet = Bullet(self) # need to pass in self as ai_game
             self.bullets.add(new_bullet)
 
     def _update_screen(self):
