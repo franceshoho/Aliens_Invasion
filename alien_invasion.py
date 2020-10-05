@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     """Class to manage game assets and behaviors"""
@@ -18,8 +19,11 @@ class AlienInvasion:
 
         # initiate ship.  need to pass in self as ai_game
         self.ship = Ship(self)
-        # create a group of bullets.
+        # create a group of bullets
         self.bullets = pygame.sprite.Group()
+        # create a group of alien ships
+        self.aliens = pygame.sprite.Group()
+        self._create_fleet()
 
     def run_game(self):
         """Start main loop of the game"""
@@ -77,6 +81,11 @@ class AlienInvasion:
             new_bullet = Bullet(self) # need to pass in self as ai_game
             self.bullets.add(new_bullet)
 
+    def _create_fleet(self):
+        """create a fleet of alien ships"""
+        alien = Alien(self)
+        self.aliens.add(alien)
+
     def _update_screen(self):
         """private fn:  update screen"""
         # draw/render but not make it visible
@@ -86,6 +95,8 @@ class AlienInvasion:
         # draw a group of bullets using
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        # draw aliens
+        self.aliens.draw(self.screen)
         # Flip - Render screen by making drawing visible
         pygame.display.flip()
 

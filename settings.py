@@ -1,5 +1,8 @@
 class Settings:
     """A class to store all settings for Alien Invasion"""
+    # color
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
 
     def __init__(self):
         """Initiate game's settings"""
@@ -17,3 +20,7 @@ class Settings:
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 5
+
+        # alien ship settings
+        self.alien_speed = 1
+        self.alien_bg_color = self.BLACK
