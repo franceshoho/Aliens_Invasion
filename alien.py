@@ -36,5 +36,7 @@ class Alien(pygame.sprite.Sprite):
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
-    # def update(self):
-    #     """move alien to right until it disappears from screen"""
+    def update(self):
+        """move alien to right until it disappears from screen"""
+        self.x += self.settings.alien_speed
+        self.rect.x = self.x

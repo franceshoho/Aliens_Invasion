@@ -32,6 +32,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _update_bullets(self):
@@ -103,10 +104,15 @@ class AlienInvasion:
     def _create_alien(self, row, col):
         alien = Alien(self)
         # set x coord of alien = left margin + (2 * alien.width)
-        alien.rect.x = alien.width + (2 * alien.width) * col
+        alien.x = alien.width + (2 * alien.width) * col
+        alien.rect.x = alien.x
         # set y = top margin + (2 * height) * row
         alien.rect.y = alien.height + (2 * alien.height) * row
         self.aliens.add(alien)
+
+    def _update_aliens(self):
+        """update positions for all aliens in the fleet"""
+        self.aliens.update()
 
     def _update_screen(self):
         """private fn:  update screen"""
