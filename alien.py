@@ -35,3 +35,6 @@ class Alien(pygame.sprite.Sprite):
         # get alien ship x,y positions
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
+
+    # def update(self):
+    #     """move alien to right until it disappears from screen"""

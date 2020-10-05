@@ -87,17 +87,25 @@ class AlienInvasion:
         alien = Alien(self)
         avail_space_x = self.settings.screen_width - (2 * alien.width)
         number_aliens_x = avail_space_x // (2 * alien.width)
-        # Actually create a row of aliens here
-        for alien_number in range(number_aliens_x):
-            self._create_alien(alien_number)
 
+        # determine number of rows aliens can fit into height of screen\
+        # each alien needs margin of height on top and bottom, plus another
+        # row to give player more room
+        avail_space_y = self.settings.screen_height - (3 * alien.height) \
+                        - alien.height
+        number_rows = avail_space_y // (2 * alien.height)
 
+        # actually create rows of aliens here
+        for row in range(number_rows):
+            for col in range(number_aliens_x):
+                self._create_alien(row, col)
 
-    def _create_alien(self, number):
+    def _create_alien(self, row, col):
         alien = Alien(self)
-        # each alien is (2 * alien.width)
-        alien.x = alien.width + (2 * alien.width) * number
-        alien.rect.x = alien.x
+        # set x coord of alien = left margin + (2 * alien.width)
+        alien.rect.x = alien.width + (2 * alien.width) * col
+        # set y = top margin + (2 * height) * row
+        alien.rect.y = alien.height + (2 * alien.height) * row
         self.aliens.add(alien)
 
     def _update_screen(self):
