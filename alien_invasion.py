@@ -83,7 +83,21 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """create a fleet of alien ships"""
+        # create an alien to get its attr for spacing aliens in a row.
         alien = Alien(self)
+        avail_space_x = self.settings.screen_width - (2 * alien.width)
+        number_aliens_x = avail_space_x // (2 * alien.width)
+        # Actually create a row of aliens here
+        for alien_number in range(number_aliens_x):
+            self._create_alien(alien_number)
+
+
+
+    def _create_alien(self, number):
+        alien = Alien(self)
+        # each alien is (2 * alien.width)
+        alien.x = alien.width + (2 * alien.width) * number
+        alien.rect.x = alien.x
         self.aliens.add(alien)
 
     def _update_screen(self):

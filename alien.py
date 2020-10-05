@@ -17,32 +17,21 @@ class Alien(pygame.sprite.Sprite):
         # Load alien image and convert to bmp
         self.image = pygame.image.load('images/yellow_alien.png').convert()
         # resize with 0 rotation, and 0.35 scale
-        self.image = pygame.transform.rotozoom(self.image, 0, 0.35)
+        self.image = pygame.transform.rotozoom(self.image, 0, 0.4415)
         # make bg_color of alien transparent
         self.image.set_colorkey(self.settings.alien_bg_color)
         # get ship position (x,y)
         self.rect = self.image.get_rect()
 
-        # start each new alien ship at the top left of screen
-        self.rect.topleft = self.screen_rect.topleft
-        # get ship x position
+        # alien width and height
+        self.width = self.rect.width
+        self.height = self.rect.height
+
+        # start each new alien ship at the top left of screen with margin
+        # 1 width to right and 1 height down.  (x,y) have to be int
+        self.rect.x = int(self.width)
+        self.rect.y = int(self.height)
+
+        # get alien ship x,y positions
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
-
-        # # set initial key stroke state
-        # self.moving_right = False
-        # self.moving_left = False
-        # self.moving_up = False
-
-    # def update(self):
-    #     """update ship position based on movement flag"""
-    #     # before each move, check if ship is inside screen
-    #     if self.x <= self.screen.screen_width():
-    #         self.x += self.settings.ship_speed
-    #     else:
-    #         self.y += self.rect.height()
-        self.rect.x = self.x
-
-    # def blitme(self):
-    #     """draw ship onto screen by copying pixel from image to position"""
-    #     self.screen.blit(self.image, self.rect)
