@@ -29,8 +29,8 @@ class Alien(pygame.sprite.Sprite):
 
         # start each new alien ship at the top left of screen with margin
         # 1 width to right and 1 height down.  (x,y) have to be int
-        self.rect.x = int(self.width)
-        self.rect.y = int(self.height)
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
 
         # get alien ship x,y positions
         self.x = float(self.rect.x)
@@ -38,5 +38,5 @@ class Alien(pygame.sprite.Sprite):
 
     def update(self):
         """move alien to right until it disappears from screen"""
-        self.x += self.settings.alien_speed
-        self.rect.x = self.x
+        self.rect.x += self.settings.alien_speed
+       # self.rect.x = self.x

@@ -104,8 +104,8 @@ class AlienInvasion:
     def _create_alien(self, row, col):
         alien = Alien(self)
         # set x coord of alien = left margin + (2 * alien.width)
-        alien.x = alien.width + (2 * alien.width) * col
-        alien.rect.x = alien.x
+        alien.rect.x = alien.width + (2 * alien.width) * col
+        # alien.rect.x = alien.x
         # set y = top margin + (2 * height) * row
         alien.rect.y = alien.height + (2 * alien.height) * row
         self.aliens.add(alien)
