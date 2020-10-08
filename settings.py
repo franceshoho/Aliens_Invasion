@@ -22,5 +22,7 @@ class Settings:
         self.bullets_allowed = 5
 
         # alien ship settings
-        self.alien_speed = 1
+        self.alien_speedx = 1
+        self.alien_speedy = 10
+        self.fleet_direction = 1
         self.alien_bg_color = self.BLACK

@@ -37,6 +37,12 @@ class Alien(pygame.sprite.Sprite):
         self.y = float(self.rect.y)
 
     def update(self):
-        """move alien to right until it disappears from screen"""
-        self.rect.x += self.settings.alien_speed
+        """move alien to right or left if it reaches screen edge"""
+        self.rect.x += self.settings.alien_speedx * self.settings.fleet_direction
        # self.rect.x = self.x
+
+    def check_edge(self):
+        """return true if an alien is at edge of screen"""
+        return self.rect.right >= self.settings.screen_width or self.rect.left <=0
+
+
