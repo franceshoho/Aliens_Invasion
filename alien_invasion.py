@@ -40,6 +40,10 @@ class AlienInvasion:
         pass top of screen"""
         self.bullets.update()
         self._remove_bullets()
+        # check if bullet hits an alien, returns a dictionary {bullet: alien}
+        # True means delete bullet and alien if they collide
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
 
     def _remove_bullets(self):
         # remove bullets after they disappear from screen
