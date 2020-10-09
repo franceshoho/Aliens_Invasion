@@ -13,6 +13,7 @@ class Settings:
 
         # ship settings
         self.ship_speed = 3
+        self.ship_limit = 3
 
         # bullet settings - dark grey 3x15 pixels
         self.bullet_speed = 7

@@ -1,9 +1,12 @@
 import sys
+import time
+
 import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from game_stats import GameStats
 
 class AlienInvasion:
     """Class to manage game assets and behaviors"""
@@ -17,7 +20,8 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
         self.bg_color = (self.settings.bg_color) # set background color
 
-        # initiate ship.  need to pass in self as ai_game
+        # initiate game - a ship, bullets, aliens
+        self.stats = GameStats(self)
         self.ship = Ship(self)
         # create a group of bullets
         self.bullets = pygame.sprite.Group()
@@ -39,18 +43,22 @@ class AlienInvasion:
         """update position of bullets and remove bullets when they
         pass top of screen"""
         self.bullets.update()
-        self._remove_bullets()
-        # check if bullet hits an alien, returns a dictionary {bullet: alien}
-        # True means delete bullet and alien if they collide
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
-
-
-    def _remove_bullets(self):
-        # remove bullets after they disappear from screen
-        # use a copy because we can't remove item within a loop
         for bullet in self.bullets.copy() :
             if bullet.rect.bottom <= 0 :
                 self.bullets.remove(bullet)
+        self._check_bullet_hit_alien()
+
+
+    def _check_bullet_hit_alien(self):
+        """if bullets hit aliens, remove them"""
+        # groupcollide() checks if there's collisions between groupA, groupB,
+        # if True will remove them.  Returns a dict{groupA: groupB}
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        # repopulate aliens if none left and reset bullets to 0
+        if not self.aliens:  # empty
+            self.bullets.empty()  # empty is a sprite method
+            self._create_fleet()
 
     def _check_events(self):
         """private fn for AlienInvasion Class:  checks key events"""
@@ -129,11 +137,25 @@ class AlienInvasion:
         self.settings.fleet_direction *= -1  # flip fleet direction
 
     def _update_aliens(self):
-        """if fleet is at screen edge, update positsion of all aliens
+        """if fleet is at screen edge, update pos of all aliens
         the first changes y position, and then use aliens.update to
         update x pos"""
         self._check_fleet_edges()
         self.aliens.update()
+        # check if ship collides with any aliens
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+
+    def _ship_hit(self):
+        """actions when ship is hit"""
+        self.stats.ship_left -= 1
+        self.bullets.empty()
+        self.aliens.empty()
+        self._create_fleet()
+        self.ship.center_ship()
+
+        #time pause
+        time.sleep(0.5)
 
     def _update_screen(self):
         """private fn:  update screen"""
