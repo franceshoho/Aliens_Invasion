@@ -34,9 +34,10 @@ class AlienInvasion:
         while True:
             # to listen to keystroke events
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+            if self.stats.game_active == True:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
             self._update_screen()
 
     def _update_bullets(self):
@@ -145,17 +146,30 @@ class AlienInvasion:
         # check if ship collides with any aliens
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+        # check if aliens reach bottom of screen
+        self._check_aliens_bottom()
 
     def _ship_hit(self):
         """actions when ship is hit"""
-        self.stats.ship_left -= 1
-        self.bullets.empty()
-        self.aliens.empty()
-        self._create_fleet()
-        self.ship.center_ship()
+        if self.stats.ship_left >= 0:
+            self.stats.ship_left -= 1
+            self.bullets.empty()
+            self.aliens.empty()
+            self._create_fleet()
+            self.ship.center_ship()
 
-        #time pause
-        time.sleep(0.5)
+            #time pause
+            time.sleep(0.5)
+        else:
+            self.stats.game_active = False
+
+    def _check_aliens_bottom(self):
+        """if any alien hits bottom of screen, treats as if ship is hit"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                self._ship_hit()
+                break
 
     def _update_screen(self):
         """private fn:  update screen"""
